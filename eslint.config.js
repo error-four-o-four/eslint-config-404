@@ -33,6 +33,9 @@ const config = compat.config(pluginImports.configs.recommended)[0];
 //   plugins: { 'import-x': { configs: [Object], rules: [Object] } }
 // }
 
+// does not affect the error
+// config.files = ['**/*.js'];
+
 /** @type {import('eslint').Linter.RuleEntry} */
 const OFF = 0;
 
