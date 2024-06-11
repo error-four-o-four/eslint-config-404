@@ -1,0 +1,22 @@
+{
+  "name": "eslint-config-404",
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "error-four-o-four",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^1.0.3",
+    "@eslint/eslintrc": "^3.1.0",
+    "eslint": "^9.4.0",
+    "eslint-plugin-import-x": "^0.5.1"
+  }
+}
