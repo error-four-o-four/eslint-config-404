@@ -13,7 +13,8 @@ const compat = new FlatCompat({
 });
 
 const config = compat.config(pluginImports.configs.recommended)[0];
-console.log(config);
+
+// console.log(config);
 
 // {
 //   rules: {
@@ -32,28 +33,37 @@ console.log(config);
 //   plugins: { 'import-x': { configs: [Object], rules: [Object] } }
 // }
 
-if (!config.rules) config.rules = {};
+/** @type {import('eslint').Linter.RuleEntry} */
+const OFF = 0;
 
-config.rules['no-console'] = 0;
+config.rules = {
+	'no-console': OFF,
+	...config.rules,
+	// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-unused-modules.md
+	// Type '(number | { unusedExports: boolean; })[]' is not assignable to type 'RuleEntry<any[]> | undefined'.
+	//   Type '(number | { unusedExports: boolean; })[]' is not assignable to type '[_: RuleLevel, ..._1: any[]]'.
+	//     Source provides no match for required element at position 0 in target.ts(2322)
 
-// https://github.com/un-ts/eslint-plugin-import-x/blob/master/docs/rules/no-unused-modules.md
-// Type '(number | { unusedExports: boolean; })[]' is not assignable to type 'RuleEntry<any[]> | undefined'.
-//   Type '(number | { unusedExports: boolean; })[]' is not assignable to type '[_: RuleLevel, ..._1: any[]]'.
-//     Source provides no match for required element at position 0 in target.ts(2322)
-// @ts-expect-error
-config.rules['import-x/no-unused-modules'] = [
-	1,
-	{
-		unusedExports: true,
-	},
-];
+	// @ts-expect-error
+	'import-x/no-unused-modules': [1, { unusedExports: true }],
 
-// config.rules['import-x/no-unused-modules'] = 0;
+	// RESULTING ERROR:
+	// No ESLint configuration (e.g .eslintrc) found for file: .\eslint-config-404\eslint.config.js
+	// File will not be validated. Consider running 'eslint --init' in the workspace folder eslint-config-404
+	// Alternatively you can disable ESLint by executing the 'Disable ESLint' command.
+};
+
+// ##### Alternatively
+
+// _@ts-expect-error
+// config.rules['import-x/no-unused-modules'] = [1, { unusedExports: true }];
 
 // No ESLint configuration (e.g .eslintrc) found for file: .\eslint-config-404\eslint.config.js
 // File will not be validated. Consider running 'eslint --init' in the workspace folder eslint-config-404
 // Alternatively you can disable ESLint by executing the 'Disable ESLint' command.
 // [Warn  - 6:43:46 AM]
+
+// INITIAL RESULTING ERROR - can't reproduce
 // No ESLint configuration (e.g .eslintrc) found for file: .\eslint-config-404\eslint.config.js
 // File will not be validated. Consider running 'eslint --init' in the workspace folder eslint-config-404
 // Alternatively you can disable ESLint by executing the 'Disable ESLint' command.
